@@ -80,7 +80,16 @@ module StoreModel
       end
 
       def cast_model_type_value(value)
-        model_klass_type.cast_value(value)
+        if value.key?(inheritance_column)
+          model_subclass_type = value[inheritance_column].constantize.to_type
+          model_subclass_type.cast_value(value)
+        else
+          model_klass_type.cast_value(value)
+        end
+      end
+
+      def inheritance_column
+        @inheritance_colum ||= @model_klass.inheritance_column
       end
 
       def model_klass_type

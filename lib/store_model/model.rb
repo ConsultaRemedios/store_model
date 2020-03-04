@@ -3,6 +3,7 @@
 require "store_model/types"
 require "store_model/enum"
 require "store_model/type_builders"
+require "store_model/inheritance"
 require "store_model/nested_attributes"
 
 module StoreModel
@@ -11,6 +12,7 @@ module StoreModel
     def self.included(base) # :nodoc:
       base.include ActiveModel::Model
       base.include ActiveModel::Attributes
+      base.include StoreModel::Inheritance
       base.include StoreModel::NestedAttributes
 
       base.extend StoreModel::Enum
